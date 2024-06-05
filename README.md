@@ -21,6 +21,6 @@ We call for a domain/field expert for the purpose of providing more informative 
 
 We then encode the categorical data, such as: Gender, Family History, Medical History, Angle Closure Status, Diagnosis, Glaucoma Type, Visual Acuity Measurements (LogMAR)
 
-We then visualize the quantitative features, such as:'Age', 'Intraocular Pressure (IOP)', 'Cup-to-Disc Ratio (CDR)',/
+We then visualize the quantitative features, such as:'Age', 'Intraocular Pressure (IOP)', 'Cup-to-Disc Ratio (CDR)',
 'Pachymetry', 'Sensitivity', 'Specificity', 'RNFL Thickness','GCC Thickness', 'Retinal Volume', 'Macular Thickness'
 

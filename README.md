@@ -121,6 +121,47 @@ hyperList = {
     'XGBoost': {'n_estimators': [50, 100, 200], 'learning_rate': [0.01, 0.1, 0.2]}
 }
 ```
+### Classifier Hyperparameter Optimization for Glaucoma Type Prediction
 
+For predicting Glaucoma Type, we utilized three classifiers: Decision Tree, KNN, and XGBoost. Each classifier was optimized using grid search to find the best hyperparameters.
+
+#### Methodology
+
+We defined a dictionary `hyperList` containing the advisable hyperparameters for each classifier. Grid search was then performed to identify the optimal combination of hyperparameters for each classifier.
+
+A dictionary `classifiers` was created to store the classifiers along with their names. For each classifier, we initialized an empty dictionary `bestParameters` to store the best hyperparameters and a variable `bestAccuracies` to track the best accuracy achieved.
+
+We iterated over each classifier and its associated hyperparameters defined in `hyperList`. Using a nested loop, we performed grid search by testing all possible combinations of hyperparameters.
+
+For each combination, we trained the classifier on the training data and evaluated its performance on the test data using accuracy as the evaluation metric. We updated `bestParameters` and `bestAccuracies` if a higher accuracy was achieved.
+
+#### Results
+
+The results of the grid search optimization were printed for each classifier, displaying the current hyperparameters being tested and the corresponding accuracy score. This iterative process allowed us to identify the best hyperparameters for each classifier based on the highest accuracy achieved.
+
+#### Best Hyperparameters
+
+The best hyperparameters identified for each classifier were as follows:
+
+- **Decision Tree**: {'max_depth': None, 'min_samples_split': 5}
+- **KNN**: {'n_neighbors': 5, 'p': 1}
+- **XGBoost**: {'n_estimators': 200, 'learning_rate': 0.2}
+
+These optimized hyperparameters will be used for predicting Glaucoma Type on new data instances.
+
+#### Classification Reports
+
+Detailed classification reports were generated for each classifier, providing insights into their performance across different classes. Each classification report included the following metrics:
+
+- **Precision**: Precision measures the ratio of correctly predicted instances of a class to the total instances predicted as that class. It indicates the ability of the classifier to avoid false positives.
+- **Recall**: Recall, also known as sensitivity, measures the ratio of correctly predicted instances of a class to the total instances of that class in the dataset. It indicates the ability of the classifier to identify all relevant instances.
+- **F1-score**: F1-score is the harmonic mean of precision and recall. It provides a balance between precision and recall, making it a useful metric for evaluating classifiers in imbalanced datasets.
+- **Support**: Support is the number of actual occurrences of each class in the dataset.
+
+These metrics were calculated for each class in the dataset, providing a comprehensive evaluation of the classifiers' performance across all classes.
+
+#### Best Classifier
+
+The best classifier for this dataset was KNN, achieving an accuracy score of 16.63% on predicting Glaucoma Type.
 
 

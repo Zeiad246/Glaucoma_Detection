@@ -60,7 +60,7 @@ We then perform scaling, Robust scaling was selected based on the follow criteri
   Useful because our data is not normally distributed.\
 
 We then perform Feature Extraction, Continuous-Categorical (Fisher Score).\
-![image](https://github.com/Zeiad246/Glaucoma_Detection/assets/151476551/7f4e0b12-ab7f-41ee-9793-ce10261dcd84) ![image](https://github.com/Zeiad246/Glaucoma_Detection/assets/151476551/139c756d-1a70-4447-b8d2-80fbfd8e234d)
+![image](https://github.com/Zeiad246/Glaucoma_Detection/assets/151476551/7f4e0b12-ab7f-41ee-9793-ce10261dcd84) 
 
 For The Diagnosis Classification, Pachymetry and Retinal Volume contained the highest Fisher Scores. GCC, Macular, RNFL, Specifity had some impact on the diagnosis classification while the others had little to no effect.
 

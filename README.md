@@ -7,13 +7,13 @@ The Team started a complete analysis on a Glaucoma dataset, all the way from cle
   Which classifier models were best for Diagnosis and Glaucoma Type?
   What were the results obtained from the clustering algorithm selected for this problem? (K-Means, DBScan, Agglomerative)
 
-## Step 1, Preparing our data
-  df.info(), Useful information, especially the type of variable of each feature.
-  df.describe(), General description of the dataset.
-  df.head(), A surface-level preview of what the data looks like especially after the ; separator being implemented.
-  df.columns, Feature names.
-  For better visualization, we separated non-atomic columns into multiple columns of continuous values, the following was changed:
-    Visual Field Test Results -> Sensitivity and Specifity.
-    OCT Results -> RNF Thickness, GCC Thickness, Retinal Volume, and Macular Thickness.
+## Step 1, Preparing our data\
+  df.info(), Useful information, especially the type of variable of each feature.\
+  df.describe(), General description of the dataset.\
+  df.head(), A surface-level preview of what the data looks like especially after the ; separator being implemented.\
+  df.columns, Feature names.\
+  For better visualization, we separated non-atomic columns into multiple columns of continuous values, the following was changed:\
+    Visual Field Test Results -> Sensitivity and Specifity.\
+    OCT Results -> RNF Thickness, GCC Thickness, Retinal Volume, and Macular Thickness.\
 
 

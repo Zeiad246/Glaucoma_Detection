@@ -62,6 +62,65 @@ MD distance was selected because it provided a good estimation of outliers. We u
 - Indices of outliers: [1459, 1629, 1756, 2736, 3047, 3117, 3314, 3592, 3701, 4109, 4215, 4383, 6013, 6359, 6711, 7018, 7223, 7553, 8401, 8882, 9317, 9864]
 
 We then performed outlier removal by dropping the outliers from the dataset and resetting the indexes.
+
 ```python
 df = df.drop(index=outlierPosition)
 df = df.reset_index(drop=True)
+```
+### Scaling
+
+We selected robust scaling based on the following criteria:
+- Robust to outliers.
+- Preserves the relative ordering of data points.
+- Useful for non-normally distributed data.
+
+### Feature Extraction
+
+#### Continuous-Categorical (Fisher Score)
+![Fisher Score](https://github.com/Zeiad246/Glaucoma_Detection/assets/151476551/7f4e0b12-ab7f-41ee-9793-ce10261dcd84)
+
+For the Diagnosis Classification, Pachymetry and Retinal Volume contained the highest Fisher Scores. GCC, Macular, RNFL, and Specificity had some impact on the diagnosis classification while the others had little to no effect.
+
+For the Glaucoma Type Classification, Retinal Volume, IOP, and CDR had the highest Fisher Scores. Almost every feature had a fairly high score as well.
+
+#### Categorical-Categorical (Chi Square)
+![Chi Square](https://github.com/Zeiad246/Glaucoma_Detection/assets/151476551/e794e381-334b-4281-b9ea-b9dabc2efe02)
+
+For the Diagnosis Classification, Medical History contained the highest Chi Square Score. Visual Acuity Measurement had some impact on the diagnosis classification while the others had minimal effect.
+
+For the Glaucoma Type Classification, Medical History contained the highest Chi Square Score, while Visual Acuity Measurement had some impact on the diagnosis classification. The other features had minimal effect on Glaucoma Type.
+
+We then updated the dataframe to retain only features with the highest Fisher and Chi-Square scores for both dependent features.
+
+### Dimensionality Reduction
+
+We performed dimensionality reduction using PCA on train-test splits. PCA implementation was chosen to address high dimensionality in the data. We opted for PCA over kernelPCA due to its computational efficiency and ease of interpretation. We selected 10 components to explain 95% of the variance based on this dataset.
+
+```python
+pca = PCA(n_components=10)
+X_train = pca.fit_transform(X_train)
+X_test = pca.transform(X_test)
+```
+### Classification
+
+#### Diagnosis (Glaucoma vs. No Glaucoma)
+
+We chose the following classifiers for Diagnosis:
+- Logistic Regression
+- Decision Trees
+- KNN
+- XGBoost
+
+These classifiers are well-suited for binary classification tasks. We defined the hyperparameters for each model as follows:
+
+```python
+hyperList = {
+    'Logistic Regression': {'C': [0.0001, 0.01, 1, 10, 100, 1000]},
+    'Decision Tree': {'max_depth': [None, 5, 10, 15], 'min_samples_split': [2, 5, 10]},
+    'KNN': {'n_neighbors': [3, 5, 7], 'p': [1, 2]},
+    'XGBoost': {'n_estimators': [50, 100, 200], 'learning_rate': [0.01, 0.1, 0.2]}
+}
+```
+
+
+

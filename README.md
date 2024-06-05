@@ -1,41 +1,45 @@
 # Glaucoma Detection Analysis
 
 ## Introduction
+The team embarked on a comprehensive analysis of a glaucoma dataset, progressing from data cleaning and restructuring to in-depth exploration of potential methods for detecting glaucoma.
 
-Our team embarked on a comprehensive analysis of a glaucoma dataset, progressing from data cleaning and restructuring to an in-depth exploration of potential methods for detecting glaucoma.
-
-## Problem Framing
-
-1. **Pre-processing Steps**: What pre-processing steps significantly impacted the data?
-2. **Classifier Models**: Which classifier models were most effective for diagnosing glaucoma and identifying glaucoma type?
-3. **Clustering Algorithm Results**: What were the outcomes from the clustering algorithms used (K-Means, DBScan, Agglomerative)?
+## Let's Frame the Problem:
+- What pre-processing steps significantly impacted the data?
+- Which classifier models were most effective for diagnosing glaucoma and identifying glaucoma type?
+- What were the outcomes from the clustering algorithms used (K-Means, DBScan, Agglomerative)?
 
 ## Step 1: Preparing Our Data
 
 ### Initial Exploration
 
-- **Commands Used**: `df.info()`, `df.describe()`, `df.head()`, `df.columns`
-- **Objective**: Understand the type and distribution of data.
+- **df.info()**: Useful for understanding the type of variables for each feature.
+- **df.describe()**: Provides a general description of the dataset.
+- **df.head()**: Offers a surface-level preview of the data, especially after implementing the ';' separator.
+- **df.columns**: Lists feature names.
 
 ### Data Restructuring
 
-- **Column Separation**: Split non-atomic columns into multiple continuous columns.
-    - Visual Field Test Results: Separated into Sensitivity and Specificity.
-    - OCT Results: Separated into RNF Thickness, GCC Thickness, Retinal Volume, and Macular Thickness.
-- **Column Dropping**: Removed Patient ID, Medication Usage, and Visual Symptoms due to lack of relevance.
+For better visualization, we separated non-atomic columns into multiple columns of continuous values:
+- **Visual Field Test Results**: Separated into Sensitivity and Specificity.
+- **OCT Results**: Separated into RNF Thickness, GCC Thickness, Retinal Volume, and Macular Thickness.
+
+Patient ID, Medication Usage, and Visual Symptoms do not provide useful information for data analysis. A domain expert's input would be valuable in future analyses to avoid dropping these columns unnecessarily.
 
 ### Encoding and Visualization
 
-- **Categorical Encoding**: Encoded variables such as Gender, Family History, Medical History, etc.
-- **Quantitative Visualization**: Visualized features like Age, IOP, CDR, etc. Observed distribution and potential correlations.
-- **Correlation Matrix**: Checked for correlations between quantitative features, found nearly no significant correlation.
+We encoded categorical data such as Gender, Family History, Medical History, Angle Closure Status, Diagnosis, Glaucoma Type, and Visual Acuity Measurements (LogMAR). Quantitative features such as Age, Intraocular Pressure (IOP), Cup-to-Disc Ratio (CDR), Pachymetry, Sensitivity, Specificity, RNFL Thickness, GCC Thickness, Retinal Volume, and Macular Thickness were visualized.
+
+Observations:
+- The first three plots indicate nearly equal observations for each category.
+- LogMAR had more cases of 0.0 vision compared to 0.1 and 0.3.
+
+A heatmap (correlation matrix) indicated almost no correlation between the quantitative independent features as their values were either 0 or very close to 0.
 
 ## Step 2: Preprocessing the Data
 
 ### Missing Values
 
-- **Command Used**: `df.isnull().sum()`
-- **Result**: No missing values found.
+- **df.isnull().sum()**: Resulted in 0 for every category.
 
 ### Feature Splitting
 
@@ -44,35 +48,20 @@ Our team embarked on a comprehensive analysis of a glaucoma dataset, progressing
 
 ### Outlier Detection
 
-- **Univariate Detection**: Used Tukey's Boxplot, found no outliers.
-- **Multivariate Detection**: Used Mahalanobis Distance, identified and removed 22 outliers.
+#### Univariate Outlier Detection (Tukey's Boxplot)
+Despite the different positions of these boxplots, no outliers were present. Therefore, we utilized a multivariate outlier detection method as a better outlier identifier.
 
-### Scaling
+![Tukey's Boxplot](https://github.com/Zeiad246/Glaucoma_Detection/assets/151476551/d994b06a-03d1-4e56-ad2d-ef3103f1109b)
 
-- **Scaling Method**: Used robust scaling for its robustness to outliers and preservation of data ordering.
+#### Multivariate Outlier Detection (Mahalanobis Distance)
+MD distance was selected because it provided a good estimation of outliers. We used the parameter "3" instead of "1.5" when setting the threshold conditions due to the low variance in the data. DBScan was not selected as it would require a computationally expensive grid search for hyperparameters "minPts" and "epsilon".
 
-### Feature Extraction
+![Mahalanobis Distance](https://github.com/Zeiad246/Glaucoma_Detection/assets/151476551/d04a3be8-cc01-49d4-8220-9edff0347766)
 
-- **Continuous-Categorical**: Used Fisher Score to identify key features.
-- **Categorical-Categorical**: Used Chi-Square to further refine key features.
-- **Dataframe Update**: Retained only features with high Fisher and Chi-Square scores.
+- Total number of outliers: 22
+- Indices of outliers: [1459, 1629, 1756, 2736, 3047, 3117, 3314, 3592, 3701, 4109, 4215, 4383, 6013, 6359, 6711, 7018, 7223, 7553, 8401, 8882, 9317, 9864]
 
-### Dimensionality Reduction
-
-- **Method Used**: PCA (Principal Component Analysis)
-- **Objective**: Reduced to 10 components explaining 95% variance.
-
-## Step 3: Classification
-
-### Classification for Diagnosis (Glaucoma vs. No Glaucoma)
-
-- **Selected Classifiers**: 
-    - Logistic Regression
-    - Decision Trees
-    - KNN
-    - XGBoost
-- **Hyperparameters**: Tuned hyperparameters for each model using Grid Search.
-    - Example for Logistic Regression: `{'C': [0.0001, 0.01, 1, 10, 100, 1000]}`
-    - Example for Decision Tree: `{'max_depth': [None, 5, 10, 15], 'min_samples_split': [2, 5, 10]}`
-    - Example for KNN: `{'n_neighbors': [3, 5, 7], 'p': [1, 2]}`
-    - Example for XGBoost: `{'n_estimators': [50, 100, 200], 'learning_rate': [0.01, 0.1, 0.2]}`
+We then performed outlier removal by dropping the outliers from the dataset and resetting the indexes.
+```python
+df = df.drop(index=outlierPosition)
+df = df.reset_index(drop=True)

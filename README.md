@@ -14,12 +14,12 @@ The Team started a complete analysis on a Glaucoma dataset, all the way from cle
   df.columns, Feature names.\
   For better visualization, we separated non-atomic columns into multiple columns of continuous values, the following was changed:\
     Visual Field Test Results -> Sensitivity and Specifity.\
-    OCT Results -> RNF Thickness, GCC Thickness, Retinal Volume, and Macular Thickness.\
+    OCT Results -> RNF Thickness, GCC Thickness, Retinal Volume, and Macular Thickness.
 
     Patient ID, Medication Usage, and Visual Symptoms do not give us any information that we can use for data analysis.
-We call for a domain/field expert for the purpose of providing more informative results in the future such that we do not drop the columns.\
+We call for a domain/field expert for the purpose of providing more informative results in the future such that we do not drop the columns.
 
-We then encode the categorical data, such as: Gender, Family History, Medical History, Angle Closure Status, Diagnosis, Glaucoma Type, Visual Acuity Measurements (LogMAR)\
+We then encode the categorical data, such as: Gender, Family History, Medical History, Angle Closure Status, Diagnosis, Glaucoma Type, Visual Acuity Measurements (LogMAR)
 
 We then visualize the quantitative features, such as:'Age', 'Intraocular Pressure (IOP)', 'Cup-to-Disc Ratio (CDR)',/
 'Pachymetry', 'Sensitivity', 'Specificity', 'RNFL Thickness','GCC Thickness', 'Retinal Volume', 'Macular Thickness'

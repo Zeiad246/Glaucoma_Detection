@@ -46,6 +46,32 @@ Then, we perform Multivariate Outlier Detection (Mahalanobis Distance):\
 MD distance was selected because it provided us with a good estimation of outliers. We used the parameter "3" instead of "1.5" when setting the threshold conditions because the data does not contain much variance.\
 DBScan was not selected in this problem because although it will be able to detect outliers between points, the challenge is to find the best hyperparameters "minPts" and "epsilon". It would require a Grid Search which is computationally expensive given that we are finding outliers between the independent features.
 
+![image](https://github.com/Zeiad246/Glaucoma_Detection/assets/151476551/d04a3be8-cc01-49d4-8220-9edff0347766)
+Total number of outliers: 22\
+Indices of outliers: [1459 1629 1756 2736 3047 3117 3314 3592 3701 4109 4215 4383 6013 6359 6711 7018 7223 7553 8401 8882 9317 9864]\
+We then perform Outlier Removal, dropping the outliers from the dataset, and then resetting the indexes.\
+df = df.drop(index=outlierPosition)\
+df = df.reset_index(drop=True)
+
+We then perform scaling, Robust scaling was selected based on the follow criteria:
+
+  Robust to outliers.\
+  Preserves the relative ordering of data points, which is important for our dataset.\
+  Useful because our data is not normally distributed.\
+
+We then perform Feature Extraction, Continuous-Categorical (Fisher Score).\
+![image](https://github.com/Zeiad246/Glaucoma_Detection/assets/151476551/7f4e0b12-ab7f-41ee-9793-ce10261dcd84) ![image](https://github.com/Zeiad246/Glaucoma_Detection/assets/151476551/139c756d-1a70-4447-b8d2-80fbfd8e234d)
+
+For The Diagnosis Classification, Pachymetry and Retinal Volume contained the highest Fisher Scores. GCC, Macular, RNFL, Specifity had some impact on the diagnosis classification while the others had little to no effect.
+
+For the Glaucoma Type Classification, Retinal Volume, IOP and CDR had the highest Fisher Scores. Almost every feature is fairly high as well.
+
+
+
+
+
+
+
 
 
 

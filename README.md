@@ -1,81 +1,78 @@
 # Glaucoma Detection Analysis
+
 ## Introduction
-The Team started a complete analysis on a Glaucoma dataset, all the way from cleaning, restructuring, and analysing of the data set to explore new ways of detecting Glaucoma.
 
-## Let's Frame the Problem:
-  What are the pre-processing steps used that made the most difference in this data?\
-  Which classifier models were best for Diagnosis and Glaucoma Type?\
-  What were the results obtained from the clustering algorithm selected for this problem? (K-Means, DBScan, Agglomerative)
+Our team embarked on a comprehensive analysis of a glaucoma dataset, progressing from data cleaning and restructuring to an in-depth exploration of potential methods for detecting glaucoma.
 
-## Step 1, Preparing our data.
-  df.info(), Useful information, especially the type of variable of each feature.\
-  df.describe(), General description of the dataset.\
-  df.head(), A surface-level preview of what the data looks like especially after the ; separator being implemented.\
-  df.columns, Feature names.\
-  For better visualization, we separated non-atomic columns into multiple columns of continuous values, the following was changed:\
-    Visual Field Test Results -> Sensitivity and Specifity.\
-    OCT Results -> RNF Thickness, GCC Thickness, Retinal Volume, and Macular Thickness.
+## Problem Framing
 
-    Patient ID, Medication Usage, and Visual Symptoms do not give us any information that we can use for data analysis.
-We call for a domain/field expert for the purpose of providing more informative results in the future such that we do not drop the columns.
+1. **Pre-processing Steps**: What pre-processing steps significantly impacted the data?
+2. **Classifier Models**: Which classifier models were most effective for diagnosing glaucoma and identifying glaucoma type?
+3. **Clustering Algorithm Results**: What were the outcomes from the clustering algorithms used (K-Means, DBScan, Agglomerative)?
 
-We then encode the categorical data, such as: Gender, Family History, Medical History, Angle Closure Status, Diagnosis, Glaucoma Type, Visual Acuity Measurements (LogMAR) and visualize them
+## Step 1: Preparing Our Data
 
-We then visualize the quantitative features, such as:'Age', 'Intraocular Pressure (IOP)', 'Cup-to-Disc Ratio (CDR)',
-'Pachymetry', 'Sensitivity', 'Specificity', 'RNFL Thickness','GCC Thickness', 'Retinal Volume', 'Macular Thickness'
+### Initial Exploration
 
-Results in: The first 3 plots indicate nearly equal observations for each category.\
-LogMAR however had more cases of 0.0 vision in comparison to 0.1 and 0.3.\
-We then start visualizing the quantitative multivariate features by doing a heatmap (Correlation Matrix of quantitative features)\
+- **Commands Used**: `df.info()`, `df.describe()`, `df.head()`, `df.columns`
+- **Objective**: Understand the type and distribution of data.
 
-This matrix indicates almost no correlation between the quantitative independent features because they either give the correlation value of 0, or they are very close to 0.
+### Data Restructuring
 
-## Step 2, PreProcessing the data.
+- **Column Separation**: Split non-atomic columns into multiple continuous columns.
+    - Visual Field Test Results: Separated into Sensitivity and Specificity.
+    - OCT Results: Separated into RNF Thickness, GCC Thickness, Retinal Volume, and Macular Thickness.
+- **Column Dropping**: Removed Patient ID, Medication Usage, and Visual Symptoms due to lack of relevance.
 
-df.isnull().sum(), resulted in 0 for every category.\
-Splitting the independent and dependent features, This will be used later when we get to the model training.\
-X = df.drop(['Diagnosis', 'Glaucoma Type'], axis=1)\
-y1 = df['Diagnosis']\
-y2 = df['Glaucoma Type']
+### Encoding and Visualization
 
-Outlier treatment using Univariate Outlier Detection (Tukey's Boxplot).\
-![image](https://github.com/Zeiad246/Glaucoma_Detection/assets/151476551/d994b06a-03d1-4e56-ad2d-ef3103f1109b)\
-Despite the different positions of these boxplots, there are no outliers present here. We will utilize a multivariate outlier detection method as a better outlier identifier.
+- **Categorical Encoding**: Encoded variables such as Gender, Family History, Medical History, etc.
+- **Quantitative Visualization**: Visualized features like Age, IOP, CDR, etc. Observed distribution and potential correlations.
+- **Correlation Matrix**: Checked for correlations between quantitative features, found nearly no significant correlation.
 
-Then, we perform Multivariate Outlier Detection (Mahalanobis Distance):\
-MD distance was selected because it provided us with a good estimation of outliers. We used the parameter "3" instead of "1.5" when setting the threshold conditions because the data does not contain much variance.\
-DBScan was not selected in this problem because although it will be able to detect outliers between points, the challenge is to find the best hyperparameters "minPts" and "epsilon". It would require a Grid Search which is computationally expensive given that we are finding outliers between the independent features.
+## Step 2: Preprocessing the Data
 
-![image](https://github.com/Zeiad246/Glaucoma_Detection/assets/151476551/d04a3be8-cc01-49d4-8220-9edff0347766)
-Total number of outliers: 22\
-Indices of outliers: [1459 1629 1756 2736 3047 3117 3314 3592 3701 4109 4215 4383 6013 6359 6711 7018 7223 7553 8401 8882 9317 9864]\
-We then perform Outlier Removal, dropping the outliers from the dataset, and then resetting the indexes.\
-df = df.drop(index=outlierPosition)\
-df = df.reset_index(drop=True)
+### Missing Values
 
-We then perform scaling, Robust scaling was selected based on the follow criteria:
+- **Command Used**: `df.isnull().sum()`
+- **Result**: No missing values found.
 
-  Robust to outliers.\
-  Preserves the relative ordering of data points, which is important for our dataset.\
-  Useful because our data is not normally distributed.\
+### Feature Splitting
 
-We then perform Feature Extraction, Continuous-Categorical (Fisher Score).\
-![image](https://github.com/Zeiad246/Glaucoma_Detection/assets/151476551/7f4e0b12-ab7f-41ee-9793-ce10261dcd84) 
+- **Independent Features**: `X = df.drop(['Diagnosis', 'Glaucoma Type'], axis=1)`
+- **Dependent Features**: `y1 = df['Diagnosis']`, `y2 = df['Glaucoma Type']`
 
-For The Diagnosis Classification, Pachymetry and Retinal Volume contained the highest Fisher Scores. GCC, Macular, RNFL, Specifity had some impact on the diagnosis classification while the others had little to no effect.
+### Outlier Detection
 
-For the Glaucoma Type Classification, Retinal Volume, IOP and CDR had the highest Fisher Scores. Almost every feature is fairly high as well.
+- **Univariate Detection**: Used Tukey's Boxplot, found no outliers.
+- **Multivariate Detection**: Used Mahalanobis Distance, identified and removed 22 outliers.
 
+### Scaling
 
+- **Scaling Method**: Used robust scaling for its robustness to outliers and preservation of data ordering.
 
+### Feature Extraction
 
+- **Continuous-Categorical**: Used Fisher Score to identify key features.
+- **Categorical-Categorical**: Used Chi-Square to further refine key features.
+- **Dataframe Update**: Retained only features with high Fisher and Chi-Square scores.
 
+### Dimensionality Reduction
 
+- **Method Used**: PCA (Principal Component Analysis)
+- **Objective**: Reduced to 10 components explaining 95% variance.
 
+## Step 3: Classification
 
+### Classification for Diagnosis (Glaucoma vs. No Glaucoma)
 
-
-
-
-
-
+- **Selected Classifiers**: 
+    - Logistic Regression
+    - Decision Trees
+    - KNN
+    - XGBoost
+- **Hyperparameters**: Tuned hyperparameters for each model using Grid Search.
+    - Example for Logistic Regression: `{'C': [0.0001, 0.01, 1, 10, 100, 1000]}`
+    - Example for Decision Tree: `{'max_depth': [None, 5, 10, 15], 'min_samples_split': [2, 5, 10]}`
+    - Example for KNN: `{'n_neighbors': [3, 5, 7], 'p': [1, 2]}`
+    - Example for XGBoost: `{'n_estimators': [50, 100, 200], 'learning_rate': [0.01, 0.1, 0.2]}`

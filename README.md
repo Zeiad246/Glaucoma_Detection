@@ -164,4 +164,121 @@ These metrics were calculated for each class in the dataset, providing a compreh
 
 The best classifier for this dataset was KNN, achieving an accuracy score of 16.63% on predicting Glaucoma Type.
 
+### Clustering
+
+In this section, we explore different clustering techniques applied to the dataset with the goal of identifying unknown structures and grouping patients based on diagnosis.
+
+#### Data Visualization
+
+Before applying clustering algorithms, it's essential to visualize the dataset to gain insights into its structure and distribution.
+
+![Data Visualization](https://github.com/Zeiad246/Glaucoma_Detection/assets/151476551/9f358d2a-8d9d-4dd2-a48e-b15241e3b847)
+
+#### K-Means Clustering
+
+K-Means clustering is applied with `k=4` clusters to partition the data based on diagnosis.
+
+\```python
+kmeans = KMeans(n_clusters=4, random_state=42)
+y_kmeans = kmeans.fit_predict(X)
+
+plt.scatter(X[:, 0], X[:, 1], c=y_kmeans, cmap='viridis', edgecolor='k')
+plt.scatter(kmeans.cluster_centers_[:, 0], kmeans.cluster_centers_[:, 1], s=300, c='red', marker='o', label='Centroids')
+plt.title('K-Means Clustering: Diagnosis')
+plt.xlabel('Feature 1')
+plt.ylabel('Feature 2')
+plt.legend()
+plt.show()
+\```
+
+![K-Means Clustering](https://github.com/Zeiad246/Glaucoma_Detection/assets/151476551/a33bf80c-4685-4739-adc8-099c9ee2d391)
+
+#### DBScan Clustering
+
+DBScan clustering is utilized to cluster the data points based on density.
+
+\```python
+dbscan = DBSCAN(eps=1.0, min_samples=5)
+y_dbscan = dbscan.fit_predict(X)
+
+plt.scatter(X[:, 0], X[:, 1], c=y_dbscan, cmap='viridis', edgecolor='k')
+plt.title('DBScan Clustering: Diagnosis')
+plt.xlabel('Feature 1')
+plt.ylabel('Feature 2')
+plt.show()
+\```
+
+![DBScan Clustering](https://github.com/Zeiad246/Glaucoma_Detection/assets/151476551/cee8ea68-9e64-41ed-a5d6-4396527032cc)
+
+#### Agglomerative Clustering
+
+Agglomerative clustering is employed with `n_clusters=4` to create a hierarchy of clusters.
+
+\```python
+agglomerative = AgglomerativeClustering(n_clusters=4)
+y_agg = agglomerative.fit_predict(X)
+
+plt.scatter(X[:, 0], X[:, 1], c=y_agg, cmap='viridis', edgecolor='k')
+plt.title('Agglomerative Clustering: Diagnosis')
+plt.xlabel('Feature 1')
+plt.ylabel('Feature 2')
+plt.show()
+\```
+
+![Agglomerative Clustering](https://github.com/Zeiad246/Glaucoma_Detection/assets/151476551/c65b7cfd-034f-4202-8878-4189af4730f9)
+
+#### Model Comparison
+
+To determine the best clustering technique, the Sum of Squared Errors (SSE) or Mean Squared Error (MSE) scores are compared between K-Means, DBScan, and Agglomerative Clustering.
+
+- K-Means SSE: 45994.76
+- Agglomerative Clustering SSE: 53628.27
+- DBScan Silhouette Score: 0.00185
+
+Based on the SSE/MSE scores, K-Means clustering presents the lowest SSE value, indicating that it provides better clustering performance compared to DBScan and Agglomerative Clustering. However, it's important to note that Agglomerative Clustering does not have a direct metric measurement for SSE.
+
+### Conclusion
+
+a) **Multivariate Outlier Detection**: Mahalanobis Distance emerged as the best method for detecting outliers in the dataset. This method provided a robust estimation of outliers, complementing the insights gained from the initial boxplot visualization.
+
+b) **Feature Selection Methods**:
+   - Continuous Features: Fisher Score
+   - Categorical Features: Chi-Square Score
+   
+   These feature selection techniques allowed us to identify the most influential features for both Diagnosis and Glaucoma Type. Subsequently, columns with the highest Fisher and chi-square scores were selected for further analysis.
+   
+c) **Dimensionality Reduction**:
+   Principal Component Analysis (PCA) was employed to address high dimensionality in the data. PCA was preferred over KernelPCA due to its computational efficiency and ease of interpretation.
+
+d) **Null Value Treatment**:
+   No null value treatment was required as there were no missing values in the dataset.
+
+e) **Classification Model Selection**:
+   XGBoost emerged as the top-performing classifier for predicting Diagnosis, achieving an accuracy score of 54% after hyperparameter tuning. The uniform distribution of features and Diagnosis labels in the visualization contributed to this performance.
+   
+   Winner hyperparameters:
+   - Logistic Regression: {'C': 0.01}
+   - Decision Tree: {'max_depth': 10, 'min_samples_split': 5}
+   - KNN: {'n_neighbors': 3, 'p': 1}
+   - XGBoost: {'n_estimators': 50, 'learning_rate': 0.01}
+
+   Decision Tree, for predicting Glaucoma Type, attained an accuracy score of 17.18% after hyperparameter tuning.
+
+   Winner hyperparameters:
+   - Decision Tree: {'max_depth': 15, 'min_samples_split': 2}
+   - KNN: {'n_neighbors': 5, 'p': 1}
+   - XGBoost: {'n_estimators': 100, 'learning_rate': 0.2}
+
+### Clustering Analysis
+
+The choice of KMeans clustering was made based on the assumption that the data could be effectively partitioned into distinct clusters. While DBScan and Agglomerative Clustering were also explored, KMeans outperformed them for this dataset.
+
+The optimal number of clusters determined through the elbow method was 4. The Sum of Squared Errors (SSE) score confirmed that KMeans provided the lowest SSE compared to DBScan. It's worth noting that Agglomerative Clustering does not have a direct metric measurement for SSE results.
+
+Overall, the clustering analysis identified meaningful patterns in the dataset, facilitating the segmentation of patients based on diagnosis.
+
+
+
+
+
 

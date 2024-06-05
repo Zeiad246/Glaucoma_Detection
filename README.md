@@ -36,7 +36,7 @@ df.isnull().sum(), resulted in 0 for every category.\
 Splitting the independent and dependent features, This will be used later when we get to the model training.\
 X = df.drop(['Diagnosis', 'Glaucoma Type'], axis=1)\
 y1 = df['Diagnosis']\
-y2 = df['Glaucoma Type']\
+y2 = df['Glaucoma Type']
 
 Outlier treatment using Univariate Outlier Detection (Tukey's Boxplot).\
 ![image](https://github.com/Zeiad246/Glaucoma_Detection/assets/151476551/d994b06a-03d1-4e56-ad2d-ef3103f1109b)\
@@ -44,7 +44,7 @@ Despite the different positions of these boxplots, there are no outliers present
 
 Then, we perform Multivariate Outlier Detection (Mahalanobis Distance):\
 MD distance was selected because it provided us with a good estimation of outliers. We used the parameter "3" instead of "1.5" when setting the threshold conditions because the data does not contain much variance.\
-DBScan was not selected in this problem because although it will be able to detect outliers between points, the challenge is to find the best hyperparameters "minPts" and "epsilon". It would require a Grid Search which is computationally expensive given that we are finding outliers between the independent features.\
+DBScan was not selected in this problem because although it will be able to detect outliers between points, the challenge is to find the best hyperparameters "minPts" and "epsilon". It would require a Grid Search which is computationally expensive given that we are finding outliers between the independent features.
 
 
 

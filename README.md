@@ -3,8 +3,8 @@
 The Team started a complete analysis on a Glaucoma dataset, all the way from cleaning, restructuring, and analysing of the data set to explore new ways of detecting Glaucoma.
 
 ## Let's Frame the Problem:
-  What are the pre-processing steps used that made the most difference in this data?
-  Which classifier models were best for Diagnosis and Glaucoma Type?
+  What are the pre-processing steps used that made the most difference in this data?\
+  Which classifier models were best for Diagnosis and Glaucoma Type?\
   What were the results obtained from the clustering algorithm selected for this problem? (K-Means, DBScan, Agglomerative)
 
 ## Step 1, Preparing our data.

@@ -193,7 +193,7 @@ plt.show()
 
 ![K-Means Clustering](https://github.com/Zeiad246/Glaucoma_Detection/assets/151476551/a33bf80c-4685-4739-adc8-099c9ee2d391)
 
-#### DBScan Clustering
+#### DBScan Clustering.
 
 DBScan clustering is utilized to cluster the data points based on density.
 

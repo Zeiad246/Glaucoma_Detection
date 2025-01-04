@@ -1,4 +1,4 @@
-# Glaucoma Detection Analysis
+# Glaucoma Detection Analysis By tripz, zeiad & omar
 
 ## Introduction
 The team embarked on a comprehensive analysis of a glaucoma dataset, progressing from data cleaning and restructuring to in-depth exploration of potential methods for detecting glaucoma.
